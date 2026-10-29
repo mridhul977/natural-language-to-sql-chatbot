@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Natural Language to SQL</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f5f9;
+            margin: 0;
+            padding: 40px 16px;
+            color: #202938;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: auto;
+            background: white;
+            padding: 28px;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px #00000012;
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #243b67;
+        }
+
+        p {
+            color: #64748b;
+        }
+
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            min-height: 100px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font: inherit;
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 12px;
+            padding: 12px 20px;
+            background: #2859c5;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #1e4295;
+        }
+
+        pre {
+            background: #f1f5f9;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .error {
+            color: #b42318;
+            background: #fef3f2;
+            padding: 12px;
+            border-radius: 7px;
+        }
+
+        .result {
+            margin-top: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Natural Language to SQL Chatbot</h1>
+        <p>Ask a question about your employee database in plain English.</p>
+
+        <form method="POST">
+            <textarea
+                name="question"
+                placeholder="Example: What is the average salary of employees in IT?"
+                required
+            >{{ question }}</textarea>
+
+            <button type="submit">Generate and Execute SQL</button>
+        </form>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        {% if sql %}
+            <div class="result">
+                <h2>Generated SQL</h2>
+                <pre>{{ sql }}</pre>
+            </div>
+        {% endif %}
+
+        {% if results is not none %}
+            <div class="result">
+                <h2>Query Results</h2>
+                {% if results %}
+                    {% for row in results %}
+                        <pre>{{ row }}</pre>
+                    {% endfor %}
+                {% else %}
+                    <p>No records found.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
